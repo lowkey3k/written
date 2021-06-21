@@ -78,18 +78,18 @@ public class SqlWhereServiceImpl implements SqlWhereService {
                             String jS = (String) jValue;
                             String v = (String) value;
                             String trim = v.replace("%", "").trim();
-                            if (v.startsWith("%")) {
+                            if (v.startsWith("%") && v.endsWith("%")) {
+                                if (!jS.contains(trim)) {
+                                    total.getAndIncrement();
+                                    break;
+                                }
+                            }else if (v.startsWith("%")) {
                                 if (!jS.endsWith(trim)) {
                                     total.getAndIncrement();
                                     break;
                                 }
                             } else if (v.endsWith("%")) {
                                 if (!jS.startsWith(trim)) {
-                                    total.getAndIncrement();
-                                    break;
-                                }
-                            } else if (v.startsWith("%") && v.endsWith("%")) {
-                                if (!jS.contains(v)) {
                                     total.getAndIncrement();
                                     break;
                                 }

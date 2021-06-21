@@ -46,7 +46,7 @@ public class SqlWhereTest {
      */
     @Test
     public void test02() {
-        String sql = "a=3 and f <5 and b like \"hello%\" and c.e < 6 and c.d like \"%tencent1\" or g like \"%hard1\" ";
+        String sql = "a=3 and f <5 and b like \"hello%\" and c.e < 6 and c.d like \"%tencent1\" or g like \"%har%\" ";
         Boolean aBoolean = service.sqlWhere(json, sql);
         Assert.isTrue(aBoolean, "sql匹配失败");
     }

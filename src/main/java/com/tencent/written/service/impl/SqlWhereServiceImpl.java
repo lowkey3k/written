@@ -18,6 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class SqlWhereServiceImpl implements SqlWhereService {
 
+    private static final String PERCENT="%";
+    private static final String POINT=".";
     /**
      * sql匹配json，输出匹配结果
      *
@@ -36,7 +38,7 @@ public class SqlWhereServiceImpl implements SqlWhereService {
                 Object value = term.getValue();
                 String column = term.getColumn();
                 Object jValue = jsonObject.get(column);
-                if (column.contains(".")) {
+                if (column.contains(POINT)) {
                     jValue = nestedValue(column, jsonObject);
                 }
                 switch (term.getTermType()) {
@@ -77,18 +79,18 @@ public class SqlWhereServiceImpl implements SqlWhereService {
                         if (jValue instanceof String && value instanceof String) {
                             String jS = (String) jValue;
                             String v = (String) value;
-                            String trim = v.replace("%", "").trim();
-                            if (v.startsWith("%") && v.endsWith("%")) {
+                            String trim = v.replace(PERCENT, "").trim();
+                            if (v.startsWith(PERCENT) && v.endsWith(PERCENT)) {
                                 if (!jS.contains(trim)) {
                                     total.getAndIncrement();
                                     break;
                                 }
-                            }else if (v.startsWith("%")) {
+                            }else if (v.startsWith(PERCENT)) {
                                 if (!jS.endsWith(trim)) {
                                     total.getAndIncrement();
                                     break;
                                 }
-                            } else if (v.endsWith("%")) {
+                            } else if (v.endsWith(PERCENT)) {
                                 if (!jS.startsWith(trim)) {
                                     total.getAndIncrement();
                                     break;
